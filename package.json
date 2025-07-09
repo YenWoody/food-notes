@@ -11,11 +11,15 @@
   },
   "dependencies": {
     "@nuxt/icon": "^1.15.0",
+    "@supabase/supabase-js": "^2.50.4",
     "@tailwindcss/vite": "^4.1.11",
     "element-plus": "^2.10.3",
     "nuxt": "^3.17.6",
     "tailwindcss": "^4.1.11",
     "vue": "^3.5.17",
     "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2"
   }
 }

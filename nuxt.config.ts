@@ -8,5 +8,12 @@ export default defineNuxtConfig({
   css: ['@/assets/css/main.css'],
   vite: {
     plugins: [tailwindcss()]
+  },
+  runtimeConfig: {
+    public: {
+      SUPABASE_URL: process.env.NUXT_PUBLIC_SUPABASE_URL,
+      SUPABASE_KEY: process.env.NUXT_PUBLIC_SUPABASE_KEY
+    },
+    SUPABASE_SERVICE_ROLE: process.env.NUXT_PRIVATE_SUPABASE_SERVICE_ROLE
   }
 })

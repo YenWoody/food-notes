@@ -8,7 +8,11 @@ export default {
     './error.vue'
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['"Lexend Deca"', 'ui-sans-serif', 'system-ui']
+      }
+    }
   },
   plugins: [],
 }

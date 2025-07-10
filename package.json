@@ -4,13 +4,13 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --port 3001",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxt/icon": "^1.15.0",
+    "@nuxtjs/google-fonts": "^3.2.0",
     "@supabase/supabase-js": "^2.50.4",
     "@tailwindcss/vite": "^4.1.11",
     "element-plus": "^2.10.3",
@@ -20,6 +20,8 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "prettier": "^3.6.2"
+    "@iconify-json/mdi": "^1.2.3",
+    "prettier": "^3.6.2",
+    "unplugin-icons": "^22.1.0"
   }
 }

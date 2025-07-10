@@ -4,6 +4,7 @@
 
     <main class="flex-1 container mx-auto p-4">
       <slot />
+      <BottomNav />
     </main>
 
     <footer class="bg-white text-center p-4 text-sm text-gray-500">
@@ -12,6 +13,4 @@
   </div>
 </template>
 
-<script setup>
-
-</script>
+<script setup></script>

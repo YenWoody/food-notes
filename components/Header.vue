@@ -8,23 +8,25 @@
     </div>
 
     <!-- Mobile menu toggle -->
-<!-- Hamburger toggle -->
-<button @click="menuOpen = !menuOpen" class="md:hidden text-2xl transition-transform duration-300" :class="{ 'rotate-90': menuOpen }">
-  <span v-if="!menuOpen">☰</span>
-  <span v-else>✖</span>
-</button>
+    <!-- Hamburger toggle -->
+    <button
+      @click="menuOpen = !menuOpen"
+      class="md:hidden text-2xl transition-transform duration-300"
+      :class="{ 'rotate-90': menuOpen }"
+    >
+      <span v-if="!menuOpen">☰</span>
+      <span v-else>✖</span>
+    </button>
 
-
-   <!-- Mobile menu -->
-<Transition name="slide-fade">
-  <div
-    v-if="menuOpen"
-    class="absolute top-16 left-0 w-full bg-white shadow-md p-4 z-50 md:hidden transition-all duration-300"
-  >
-    <Nav @close="menuOpen = false" />
-  </div>
-</Transition>
-
+    <!-- Mobile menu -->
+    <Transition name="slide-fade">
+      <div
+        v-if="menuOpen"
+        class="absolute top-16 left-0 w-full bg-white shadow-md p-4 z-50 md:hidden transition-all duration-300"
+      >
+        <Nav @close="menuOpen = false" />
+      </div>
+    </Transition>
   </header>
 </template>
 
@@ -48,8 +50,8 @@ import { ref } from 'vue'
 import Nav from '~/components/Nav.vue'
 
 const menuOpen = ref(false)
-watch(menuOpen,(e)=>{
-    console.log(e,"e")
+watch(menuOpen, (e) => {
+  console.log(e, 'e')
 })
-console.log(menuOpen.value,"test")
+console.log(menuOpen.value, 'test')
 </script>

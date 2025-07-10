@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
-import { useAuth } from '~/composables/api/useAuth'
+import { useAuth } from '~/composables/useAuth'
 
 const formRef = ref()
 const form = reactive({

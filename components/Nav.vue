@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { useAuth } from '~/composables/api/useAuth'
+import { useAuth } from '~/composables/useAuth'
 
 const { user, signOut } = useAuth()
 

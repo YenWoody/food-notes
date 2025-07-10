@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
-import { useAuth } from '~/composables/api/useAuth'
+import { useAuth } from '~/composables/useAuth'
 const formRef = ref()
 const form = reactive({
   email: '',
@@ -79,9 +79,12 @@ const onLogin = async () => {
 
     loading.value = true
     try {
+      console.log(form, 'form')
       await signIn(form.email, form.password)
       ElMessage.success('Đăng nhập thành công!')
-      router.push('/')
+      setTimeout(() => {
+        return navigateTo('/')
+      }, 100)
       // TODO: chuyển trang nếu cần
     } catch (err: any) {
       ElMessage.error(err.message || 'Đăng nhập thất bại')

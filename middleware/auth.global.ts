@@ -1,12 +1,12 @@
-import { useAuth } from '~/composables/api/useAuth'
-export default defineNuxtRouteMiddleware(async () => {
-  const { user, initialized, initAuth } = useAuth()
-
-  if (!initialized.value) {
-    await initAuth() // Đảm bảo đã lấy session trước khi check
-  }
-
-  if (!user.value) {
+export default defineNuxtRouteMiddleware((to, from) => {
+  const user = useState('user')
+  const publicPages = ['/login', '/register']
+  const isPublicPage = publicPages.includes(to.path)
+  console.log(user.value, 'user')
+  if (!user.value && !isPublicPage) {
     return navigateTo('/login')
+  }
+  if (user.value && isPublicPage) {
+    return navigateTo('/') // nếu đã login mà vào lại /login thì chuyển về home
   }
 })

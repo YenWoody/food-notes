@@ -20,9 +20,8 @@
 
 <script setup>
 import { useAuth } from '~/composables/useAuth'
-
-const { user, signOut } = useAuth()
-
+const { signOut } = useAuth()
+const user = useState('user')
 const logout = async () => {
   await signOut()
   navigateTo('/login')

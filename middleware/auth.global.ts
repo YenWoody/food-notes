@@ -1,12 +1,18 @@
-export default defineNuxtRouteMiddleware((to, from) => {
-  const user = useState('user')
+// middleware/auth.global.ts
+export default defineNuxtRouteMiddleware(async (to) => {
   const publicPages = ['/login', '/register']
-  const isPublicPage = publicPages.includes(to.path)
-  console.log(user.value, 'user')
-  if (!user.value && !isPublicPage) {
+  const isPublic = publicPages.includes(to.path)
+
+  const { user, fetchUser } = useAuth()
+
+  // Đợi user được fetch từ getUser()
+  if (!user.value) await fetchUser()
+
+  if (!user.value && !isPublic) {
     return navigateTo('/login')
   }
-  if (user.value && isPublicPage) {
-    return navigateTo('/') // nếu đã login mà vào lại /login thì chuyển về home
+
+  if (user.value && isPublic) {
+    return navigateTo('/')
   }
 })

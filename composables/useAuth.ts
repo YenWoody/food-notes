@@ -9,33 +9,34 @@ const supabaseClient = () => {
 export const useAuth = () => {
   const supabase = supabaseClient()
   const user = useState<User | null>('user', () => null)
-  const loading = useState('auth_loading', () => false)
-
-  // Gọi khi app mounted để kiểm tra user
-  const initUser = async () => {
-    if (user.value) return
+  const loadingUser = useState('loading_user', () => false)
+  const fetchUser = async () => {
+    loadingUser.value = true
     const { data, error } = await supabase.auth.getUser()
-    user.value = data?.user ?? null
-  }
-
-  const signUp = async (email: string, password: string) => {
-    loading.value = true
-    const { data, error } = await supabase.auth.signUp({ email, password })
-    loading.value = false
-    if (error) throw error
-    user.value = data.user
-    return data
+    if (data?.user) {
+      user.value = data.user
+    } else {
+      user.value = null
+    }
+    loadingUser.value = false
+    return user.value
   }
 
   const signIn = async (email: string, password: string) => {
-    loading.value = true
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    })
-    loading.value = false
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) throw error
+
     user.value = data.user
+
+    return data
+  }
+
+  const signUp = async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signUp({ email, password })
+    if (error) throw error
+
+    user.value = data.user
+
     return data
   }
 
@@ -43,24 +44,14 @@ export const useAuth = () => {
     await supabase.auth.signOut()
     user.value = null
   }
+  // Cập nhật trạng thái khi Supabase refresh token hoặc sign in/out
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (session?.user) {
+      user.value = session.user
+    } else {
+      user.value = null
+    }
+  })
 
-  // Lắng nghe session (token hết hạn hoặc đăng xuất từ tab khác)
-  if (process.client) {
-    supabase.auth.onAuthStateChange((event, session) => {
-      if (!session) {
-        user.value = null
-      } else {
-        user.value = session.user
-      }
-    })
-  }
-
-  return {
-    user,
-    loading,
-    signUp,
-    signIn,
-    signOut,
-    initUser
-  }
+  return { user, fetchUser, signIn, signUp, signOut, supabase }
 }

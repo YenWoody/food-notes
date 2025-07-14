@@ -1,8 +1,8 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-gray-50">
+  <div class="min-h-screen flex flex-col bg-white" v-loading="loading">
     <Header />
 
-    <main class="flex-1 container mx-auto p-4">
+    <main class="flex-1 container mx-auto p-2">
       <slot />
       <BottomNav />
     </main>
@@ -13,4 +13,6 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+const loading = useState('loading_user')
+</script>

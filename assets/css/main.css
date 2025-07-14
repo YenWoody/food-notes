@@ -1,7 +1,32 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-html, body {
- font-family: "Lexend Deca" ;
+html,
+body {
+  font-family: 'Lexend Deca';
+}
+.slide-forward-enter-active,
+.slide-forward-leave-active,
+.slide-back-enter-active,
+.slide-back-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-forward-enter-from {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.slide-forward-leave-to {
+  opacity: 0;
+  transform: translateX(-30%);
+}
+
+.slide-back-enter-from {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.slide-back-leave-to {
+  opacity: 0;
+  transform: translateX(30%);
 }

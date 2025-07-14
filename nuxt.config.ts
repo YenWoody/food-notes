@@ -4,6 +4,7 @@ import Icons from 'unplugin-icons/vite'
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
+  ssr: false,
   css: ['@/assets/css/main.css'],
   vite: {
     plugins: [tailwindcss()]
@@ -27,6 +28,12 @@ export default defineNuxtConfig({
       }
     ]
   ],
+  app: {
+    pageTransition: {
+      name: 'slide-up',
+      mode: 'out-in'
+    }
+  },
   runtimeConfig: {
     public: {
       SUPABASE_URL: process.env.NUXT_PUBLIC_SUPABASE_URL,

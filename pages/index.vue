@@ -1,27 +1,68 @@
 <template>
-  <div class="space-y-4">
-    <div v-for="item in foods" :key="item.id" class="p-4 bg-white rounded shadow flex justify-between items-center">
-      <div>
-        <h2 class="text-lg font-semibold text-orange-600">{{ item.dish }}</h2>
-        <p class="text-sm text-gray-600">📍 {{ item.place }}</p>
-        <p class="text-sm mt-1">{{ item.note }}</p>
-      </div>
-      <NuxtLink
-        :to="`/map?id=${item.id}`"
-        class="text-sm text-blue-600 hover:underline"
-      >
-        Xem bản đồ
-      </NuxtLink>
-    </div>
+  <div class="px-4 py-6 max-w-full sm:max-w-2xl mx-auto space-y-4">
+    <h1 class="text-xl font-bold text-center text-indigo-600">🍽️ Danh sách món ăn đã lưu</h1>
 
-    
+    <div v-if="notes.length === 0" class="text-center text-gray-500">Chưa có ghi chú nào.</div>
+
+    <div v-for="note in notes" :key="note.id" class="bg-white rounded-xl shadow-md overflow-hidden">
+      <img v-if="note.image_url" :src="note.image_url" class="w-full h-48 object-cover" />
+
+      <div class="p-4 space-y-2">
+        <div class="flex justify-between items-center">
+          <h2 class="text-lg font-semibold text-gray-800">{{ note.title }}</h2>
+          <el-rate v-model="note.rating" :max="5" disabled allow-half show-score class="text-sm" />
+        </div>
+
+        <p class="text-gray-600 text-sm line-clamp-3">{{ note.description }}</p>
+
+        <div class="text-sm text-gray-500">📍 {{ note.location_name }}</div>
+
+        <div class="flex flex-wrap gap-1 text-xs mt-1">
+          <span
+            v-for="tag in note.tags"
+            :key="tag"
+            class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full"
+          >
+            #{{ tag }}
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
-<script setup>
-const foods = ref([
-  { id: 1, dish: 'Bún bò thập cẩm', place: 'Quán Bún Chị Ba', note: 'Lần trước hơi mặn' },
-  { id: 2, dish: 'Phở tái gầu', place: 'Phở Lý Quốc Sư', note: 'Ăn ổn, nhiều thịt' },
-  // sau này thay bằng dữ liệu từ Supabase
-])
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { useAuth } from '~/composables/useAuth'
+import { ElRate } from 'element-plus'
+import type { User } from '@supabase/supabase-js'
+const { supabase, fetchUser } = useAuth()
+const notes = ref<any[]>([])
+const user = useState<User | null>('user')
+console.log(user.value, 'value')
+onMounted(async () => {
+  if (!user.value) await fetchUser()
+  if (!user.value) navigateTo('/login')
+  const { data, error } = await supabase
+    .from('food_notes')
+    .select('*')
+    .eq('user_id', user.value?.id)
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    console.error('Lỗi tải dữ liệu:', error)
+  } else {
+    notes.value = data || []
+  }
+})
 </script>
+
+<style scoped>
+.line-clamp-3 {
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>

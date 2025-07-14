@@ -12,7 +12,7 @@
     </NuxtLink>
 
     <NuxtLink
-      to="/add"
+      to="/add-note"
       class="flex flex-col items-center text-gray-700 hover:text-orange-500 transition"
       @click="onClick"
     >

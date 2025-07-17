@@ -5,28 +5,25 @@
     <NuxtLink
       to="/"
       class="flex flex-col items-center text-gray-700 hover:text-orange-500 transition"
-      @click="onClick"
     >
       <IconMdiClipboardList class="w-6 h-6" />
-      <span class="text-xs">Danh sách</span>
+      <span class="text-base">Danh sách</span>
     </NuxtLink>
 
     <NuxtLink
       to="/add-note"
-      class="flex flex-col items-center text-gray-700 hover:text-orange-500 transition"
-      @click="onClick"
+      class="flex flex-col items-center text-gray-700 hover:text-orange-500 transition absolute top-10"
     >
       <IconMdiPlusCircle class="w-6 h-6" />
-      <span class="text-xs">Thêm món</span>
+      <span class="text-base">Thêm món</span>
     </NuxtLink>
 
     <NuxtLink
       to="/map"
       class="flex flex-col items-center text-gray-700 hover:text-orange-500 transition"
-      @click="onClick"
     >
       <IconMdiMap class="w-6 h-6" />
-      <span class="text-xs">Bản đồ</span>
+      <span class="text-base">Bản đồ</span>
     </NuxtLink>
   </nav>
 </template>
@@ -35,7 +32,4 @@
 import IconMdiClipboardList from '~icons/mdi/clipboard-list'
 import IconMdiPlusCircle from '~icons/mdi/plus-circle'
 import IconMdiMap from '~icons/mdi/map'
-defineProps<{
-  onClick?: () => void
-}>()
 </script>

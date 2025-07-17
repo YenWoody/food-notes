@@ -33,7 +33,7 @@
         v-if="menuOpen"
         class="absolute top-full left-0 w-full bg-white shadow-md p-4 z-50 md:hidden"
       >
-        <Nav @close="menuOpen = false" />
+        <Nav />
       </div>
     </Transition>
   </header>
@@ -43,7 +43,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const isAtTop = ref(true)
-
+const menuOpen = ref(false)
 const handleScroll = () => {
   const scrollY = window.scrollY
   // Chỉ cập nhật nếu có sự thay đổi để tránh flicker

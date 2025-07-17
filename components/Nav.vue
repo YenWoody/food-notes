@@ -26,11 +26,6 @@ const logout = async () => {
   await signOut()
   navigateTo('/login')
 }
-const emit = defineEmits(['close'])
-
-const onClick = () => {
-  emit('close') // dùng để đóng menu trên mobile khi bấm
-}
 </script>
 
 <style></style>

@@ -5,7 +5,11 @@
     <div v-if="notes.length === 0" class="text-center text-gray-500">Chưa có ghi chú nào.</div>
 
     <div v-for="note in notes" :key="note.id" class="bg-white rounded-xl shadow-md overflow-hidden">
-      <img v-if="note.image_url" :src="note.image_url" class="w-full h-48 object-cover" />
+      <img
+        v-if="note.image_url"
+        :src="note.image_url"
+        class="w-auto h-48 object-cover rounded-xl mx-auto"
+      />
 
       <div class="p-4 space-y-2">
         <div class="flex justify-between items-center">

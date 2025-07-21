@@ -1,51 +1,53 @@
 <template>
-  <div class="hidden md:block">
-    <img
-      src="/img/backdrop.png"
-      alt="Sign in illustration"
-      class="w-full max-h-96 object-contain"
-    />
-  </div>
   <div>
-    <h2 class="text-2xl font-bold mb-6">Đăng nhập</h2>
+    <div class="hidden md:block">
+      <img
+        src="/img/backdrop.png"
+        alt="Sign in illustration"
+        class="w-full max-h-96 object-contain"
+      />
+    </div>
+    <div>
+      <h2 class="text-2xl font-bold mb-6">Đăng nhập</h2>
 
-    <el-form
-      :model="form"
-      :rules="rules"
-      ref="formRef"
-      label-position="top"
-      class="space-y-4"
-      @submit.prevent="onLogin"
-    >
-      <el-form-item label="Email" prop="email">
-        <el-input v-model="form.email" placeholder="Nhập email" />
-      </el-form-item>
+      <el-form
+        :model="form"
+        :rules="rules"
+        ref="formRef"
+        label-position="top"
+        class="space-y-4"
+        @submit.prevent="onLogin"
+      >
+        <el-form-item label="Email" prop="email">
+          <el-input v-model="form.email" placeholder="Nhập email" />
+        </el-form-item>
 
-      <el-form-item label="Mật khẩu" prop="password">
-        <el-input v-model="form.password" type="password" placeholder="Nhập mật khẩu" />
-      </el-form-item>
+        <el-form-item label="Mật khẩu" prop="password">
+          <el-input v-model="form.password" type="password" placeholder="Nhập mật khẩu" />
+        </el-form-item>
 
-      <el-form-item>
-        <el-checkbox v-model="form.remember">Ghi nhớ đăng nhập</el-checkbox>
-      </el-form-item>
+        <el-form-item>
+          <el-checkbox v-model="form.remember">Ghi nhớ đăng nhập</el-checkbox>
+        </el-form-item>
 
-      <el-form-item>
-        <el-button type="primary" native-type="submit" :loading="loading" class="w-full">
-          Đăng nhập
-        </el-button>
-      </el-form-item>
+        <el-form-item>
+          <el-button type="primary" native-type="submit" :loading="loading" class="w-full">
+            Đăng nhập
+          </el-button>
+        </el-form-item>
 
-      <div class="flex justify-between text-sm mt-2">
-        <NuxtLink to="/register" class="text-blue-500 hover:underline">Tạo tài khoản</NuxtLink>
-        <span class="text-gray-400">Hoặc đăng nhập với</span>
-      </div>
+        <div class="flex justify-between text-sm mt-2">
+          <NuxtLink to="/register" class="text-blue-500 hover:underline">Tạo tài khoản</NuxtLink>
+          <!-- <span class="text-gray-400">Hoặc đăng nhập với</span> -->
+        </div>
 
-      <div class="flex gap-2 mt-3">
-        <IconMdiAccountCash style="color: green" />
-        <el-button circle icon="Twitter" />
-        <el-button circle icon="Google" />
-      </div>
-    </el-form>
+        <!-- <div class="flex gap-2 mt-3">
+          <IconMdiAccountCash style="color: green" />
+          <el-button circle icon="Twitter" />
+          <el-button circle icon="Google" />
+        </div> -->
+      </el-form>
+    </div>
   </div>
 </template>
 

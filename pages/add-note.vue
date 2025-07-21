@@ -42,7 +42,7 @@
       </el-form-item>
 
       <el-form-item label="Địa điểm" prop="locationName">
-        <el-input v-model="form.locationName" placeholder="Nhập địa điểm" clearable size="large" />
+        <AddressInput @select="onAddressSelected" :initial-value="form.locationName" />
       </el-form-item>
 
       <el-form-item label="Tọa độ (Lng, Lat)">
@@ -156,7 +156,10 @@ const onSelectFile = (e: Event) => {
   selectedFile.value = file
   previewUrl.value = URL.createObjectURL(file)
 }
-
+const onAddressSelected = (payload: { name: string; lat: number; lng: number }) => {
+  form.value.locationName = payload.name
+  form.value.locationCoords = [payload.lng, payload.lat]
+}
 const handleSelectInput = (e: Event) => {
   const input = e.target as HTMLInputElement
   const value = input.value

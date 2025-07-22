@@ -7,6 +7,7 @@ import { onMounted, ref } from 'vue'
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
 const mapViewEl = ref<HTMLDivElement | null>(null)
+
 onMounted(() => {
   if (!mapViewEl.value) return
   const map = new Map({

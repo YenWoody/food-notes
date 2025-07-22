@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="md:grid md:grid-cols-2">
     <div class="md:order-2">
       <h2 class="text-2xl font-bold mb-6">Đăng ký tài khoản</h2>
       <el-form :model="form" :rules="rules" ref="formRef" label-position="top" class="space-y-4">
@@ -64,7 +64,7 @@ const onSubmit = async () => {
       await signUp(form.email, form.password)
       ElMessage.success('Đăng ký thành công!')
       setTimeout(() => {
-        return navigateTo('/login')
+        return navigateTo('/')
       }, 100)
     } catch (err: any) {
       ElMessage.error(err.message || 'Đăng ký thất bại')

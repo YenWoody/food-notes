@@ -117,7 +117,6 @@ import {
   ElFormItem,
   ElInput,
   ElButton,
-  ElCheckbox,
   ElRate,
   ElMessage,
   ElSelect,

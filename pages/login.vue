@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="md:grid md:grid-cols-2">
     <div class="hidden md:block">
       <img
         src="/img/backdrop.png"
@@ -60,7 +60,6 @@ const form = reactive({
   password: '',
   remember: true
 })
-const router = useRouter()
 const rules = {
   email: [
     { required: true, message: 'Vui lòng nhập email', trigger: 'blur' },
@@ -71,7 +70,6 @@ const rules = {
     { min: 6, message: 'Mật khẩu phải từ 6 ký tự', trigger: 'blur' }
   ]
 }
-
 const loading = ref(false)
 const { signIn } = useAuth()
 
@@ -81,7 +79,6 @@ const onLogin = async () => {
 
     loading.value = true
     try {
-      console.log(form, 'form')
       await signIn(form.email, form.password)
       ElMessage.success('Đăng nhập thành công!')
       setTimeout(() => {

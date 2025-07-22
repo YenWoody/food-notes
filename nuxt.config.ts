@@ -10,13 +10,13 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()]
   },
+  components: {
+    global: true,
+    dirs: ['~/components']
+  },
   modules: [
-    [
-      'unplugin-icons/nuxt',
-      {
-        autoInstall: true
-      }
-    ],
+    'unplugin-icons/nuxt',
+    'unplugin-vue-components/nuxt',
     [
       '@nuxtjs/google-fonts',
       {

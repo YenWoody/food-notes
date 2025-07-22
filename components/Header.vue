@@ -4,12 +4,13 @@
     :class="isAtTop ? 'py-4 shadow-md' : 'py-2 shadow-sm'"
   >
     <div class="flex items-center justify-between px-4 transition-all duration-300">
-      <h1
+      <NuxtLink
         class="font-bold text-orange-600 transition-all duration-300"
         :class="isAtTop ? 'text-2xl' : 'text-lg tracking-wide'"
+        to="/"
       >
         🍽 Food Notes
-      </h1>
+      </NuxtLink>
 
       <!-- PC menu -->
       <div class="hidden md:block">

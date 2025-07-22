@@ -4,7 +4,12 @@
 
     <div v-if="notes.length === 0" class="text-center text-gray-500">Chưa có ghi chú nào.</div>
 
-    <div v-for="note in notes" :key="note.id" class="bg-white rounded-xl shadow-md overflow-hidden">
+    <NuxtLink
+      v-for="note in notes"
+      :key="note.id"
+      :to="`/note/${note.id}`"
+      class="block bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 ease-in-out hover:scale-102"
+    >
       <img
         v-if="note.image_url"
         :src="note.image_url"
@@ -31,7 +36,7 @@
           </span>
         </div>
       </div>
-    </div>
+    </NuxtLink>
   </div>
 </template>
 

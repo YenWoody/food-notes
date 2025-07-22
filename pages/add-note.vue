@@ -42,10 +42,10 @@
       </el-form-item>
 
       <el-form-item label="Địa điểm" prop="locationName">
-        <AddressInput @select="onAddressSelected" :initial-value="form.locationName" />
+        <AddressInput v-model:location="location" />
       </el-form-item>
 
-      <el-form-item label="Tọa độ (Lng, Lat)">
+      <!-- <el-form-item label="Tọa độ (Lng, Lat)">
         <div class="flex flex-col sm:flex-row gap-3">
           <el-input
             v-model.number="form.locationCoords[0]"
@@ -60,7 +60,7 @@
             size="large"
           />
         </div>
-      </el-form-item>
+      </el-form-item> -->
 
       <el-form-item label="Tags (nhập và nhấn dấu phẩy hoặc Enter)">
         <el-select
@@ -80,9 +80,15 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item>
-        <el-checkbox v-model="form.isFavorite">Yêu thích</el-checkbox>
-      </el-form-item>
+      <el-tooltip content="Yêu thích" placement="top">
+        <el-button
+          :type="form.isFavorite ? 'danger' : 'default'"
+          circle
+          @click="form.isFavorite = !form.isFavorite"
+        >
+          <MdiLike />
+        </el-button>
+      </el-tooltip>
 
       <el-form-item>
         <el-button type="primary" @click="addNote" :loading="isSaving" class="w-full" size="large">
@@ -105,6 +111,7 @@
 <script setup lang="ts">
 import { ref, nextTick } from 'vue'
 import { useAuth } from '~/composables/useAuth'
+import MdiLike from '~icons/mdi/like'
 import {
   ElForm,
   ElFormItem,
@@ -128,7 +135,17 @@ const form = ref({
   tags: [] as string[],
   isFavorite: false
 })
-
+const location = computed({
+  get: () => ({
+    name: form.value?.locationName ?? '',
+    lat: form.value?.locationCoords?.[1] ?? null,
+    lng: form.value?.locationCoords?.[0] ?? null
+  }),
+  set: (val) => {
+    form.value.locationName = val.name
+    form.value.locationCoords = [val.lng, val.lat]
+  }
+})
 const selectedFile = ref<File | null>(null)
 const previewUrl = ref<string | null>(null)
 const isSaving = ref(false)
@@ -173,16 +190,12 @@ const handleSelectInput = (e: Event) => {
         form.value.tags.push(tag)
       }
     })
-    console.log(value, 'value')
     input.value = ' '
     nextTick(() => {
       input.value = ''
       if (tagSelectRef.value?.input) tagSelectRef.value.input.value = ''
     })
   }
-  watch(input, (e) => {
-    console.log(e)
-  })
 }
 
 const addNote = async () => {

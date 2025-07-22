@@ -14,7 +14,7 @@
         class="px-3 py-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-600"
         title="Lấy vị trí hiện tại"
       >
-        📍
+        <MdiCrosshairsGps />
       </button>
     </div>
     <ul
@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
-
+import MdiCrosshairsGps from '~icons/mdi/crosshairs-gps'
 interface Suggestion {
   address: string
   location: {
@@ -51,12 +51,15 @@ interface Suggestion {
   full_address: string
   magicKey: string
 }
-
+const props = defineProps<{
+  location: { name: string; lat: number; lng: number }
+}>()
 const emit = defineEmits<{
-  (e: 'select', payload: { name: string; lat: number; lng: number }): void
+  (e: 'update:location', data: { name: string; lat: number; lng: number }): void
 }>()
 
-const query = ref('')
+const query = ref(props.location.name || '')
+console.log(query.value, 'query')
 const suggestions = ref<Suggestion[]>([])
 
 const fetchSuggestions = useDebounceFn(async () => {
@@ -97,7 +100,7 @@ function onInput() {
 function select(item: Suggestion) {
   query.value = item.address
   suggestions.value = []
-  emit('select', {
+  emit('update:location', {
     name: item.address,
     lat: item.location.y,
     lng: item.location.x
@@ -109,28 +112,58 @@ function onKeydown(e: KeyboardEvent) {
     suggestions.value = []
   }
 }
-function getCurrentLocation() {
+async function reverseGeocodeArcGIS(lat: number, lng: number): Promise<string | null> {
+  try {
+    const url = new URL(
+      'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode'
+    )
+    url.searchParams.set('location', `${lng},${lat}`)
+    url.searchParams.set('f', 'json')
+
+    const res = await fetch(url.toString())
+    const data = await res.json()
+
+    return data?.address?.LongLabel || null
+  } catch (e) {
+    console.error('Lỗi reverse geocoding:', e)
+    return null
+  }
+}
+
+async function getCurrentLocation() {
   if (!navigator.geolocation) {
     alert('Trình duyệt không hỗ trợ định vị!')
     return
   }
+  try {
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const lat = pos.coords.latitude
+        const lng = pos.coords.longitude
 
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      const lat = pos.coords.latitude
-      const lng = pos.coords.longitude
-      emit('select', {
-        name: 'Vị trí hiện tại',
-        lat,
-        lng
-      })
-      query.value = 'Vị trí hiện tại'
-      suggestions.value = []
-    },
-    (err) => {
-      alert('Không lấy được vị trí hiện tại: ' + err.message)
-    }
-  )
+        const address = await reverseGeocodeArcGIS(lat, lng)
+
+        emit('update:location', {
+          name: address || 'Vị trí hiện tại',
+          lat,
+          lng
+        })
+
+        query.value = address || 'Vị trí hiện tại'
+        suggestions.value = []
+      },
+      (err) => {
+        if (err.code === 1) {
+          // 1 = PERMISSION_DENIED
+          console.warn('Người dùng từ chối định vị, có thể vẫn có cache.')
+        } else {
+          alert('Không lấy được vị trí hiện tại: ' + err.message)
+        }
+      }
+    )
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 ;(document.activeElement as HTMLElement)?.blur()

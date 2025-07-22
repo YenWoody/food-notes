@@ -63,6 +63,9 @@ const onSubmit = async () => {
     try {
       await signUp(form.email, form.password)
       ElMessage.success('Đăng ký thành công!')
+      setTimeout(() => {
+        return navigateTo('/login')
+      }, 100)
     } catch (err: any) {
       ElMessage.error(err.message || 'Đăng ký thất bại')
     } finally {

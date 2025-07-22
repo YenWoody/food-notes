@@ -7,9 +7,7 @@
       <BottomNav />
     </main>
 
-    <footer class="bg-white text-center p-4 text-sm text-gray-500">
-      © {{ new Date().getFullYear() }} Món Ngon Ghi Chú App
-    </footer>
+    <footer class="bg-white text-center p-4 text-sm text-gray-500 h-[100px]"></footer>
   </div>
 </template>
 

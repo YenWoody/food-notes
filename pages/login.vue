@@ -87,7 +87,6 @@ const onLogin = async () => {
       setTimeout(() => {
         return navigateTo('/')
       }, 100)
-      // TODO: chuyển trang nếu cần
     } catch (err: any) {
       ElMessage.error(err.message || 'Đăng nhập thất bại')
     } finally {

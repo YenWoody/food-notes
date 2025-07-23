@@ -1,42 +1,50 @@
 <template>
   <div class="px-4 py-6 max-w-full sm:max-w-2xl mx-auto space-y-4">
     <h1 class="text-xl font-bold text-center text-indigo-600">🍽️ Danh sách món ăn đã lưu</h1>
+    <div class="relative" v-loading="loading">
+      <div v-if="notes.length === 0" class="text-center text-gray-500">Chưa có ghi chú nào.</div>
 
-    <div v-if="notes.length === 0" class="text-center text-gray-500">Chưa có ghi chú nào.</div>
+      <NuxtLink
+        v-for="note in notes"
+        :key="note.id"
+        :to="`/note/${note.id}`"
+        class="block bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 ease-in-out hover:scale-102"
+      >
+        <img
+          v-if="note.image_url"
+          :src="note.image_url"
+          class="w-auto h-48 object-cover rounded-xl mx-auto"
+        />
 
-    <NuxtLink
-      v-for="note in notes"
-      :key="note.id"
-      :to="`/note/${note.id}`"
-      class="block bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 ease-in-out hover:scale-102"
-    >
-      <img
-        v-if="note.image_url"
-        :src="note.image_url"
-        class="w-auto h-48 object-cover rounded-xl mx-auto"
-      />
+        <div class="p-4 space-y-2">
+          <div class="flex justify-between items-center">
+            <h2 class="text-lg font-semibold text-gray-800">{{ note.title }}</h2>
+            <el-rate
+              v-model="note.rating"
+              :max="5"
+              disabled
+              allow-half
+              show-score
+              class="text-sm"
+            />
+          </div>
 
-      <div class="p-4 space-y-2">
-        <div class="flex justify-between items-center">
-          <h2 class="text-lg font-semibold text-gray-800">{{ note.title }}</h2>
-          <el-rate v-model="note.rating" :max="5" disabled allow-half show-score class="text-sm" />
+          <p class="text-gray-600 text-sm line-clamp-3">{{ note.description }}</p>
+
+          <div class="text-sm text-gray-500">📍 {{ note.location_name }}</div>
+
+          <div class="flex flex-wrap gap-1 text-xs mt-1">
+            <span
+              v-for="tag in note.tags"
+              :key="tag"
+              class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full"
+            >
+              #{{ tag }}
+            </span>
+          </div>
         </div>
-
-        <p class="text-gray-600 text-sm line-clamp-3">{{ note.description }}</p>
-
-        <div class="text-sm text-gray-500">📍 {{ note.location_name }}</div>
-
-        <div class="flex flex-wrap gap-1 text-xs mt-1">
-          <span
-            v-for="tag in note.tags"
-            :key="tag"
-            class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full"
-          >
-            #{{ tag }}
-          </span>
-        </div>
-      </div>
-    </NuxtLink>
+      </NuxtLink>
+    </div>
   </div>
 </template>
 
@@ -48,10 +56,11 @@ import type { User } from '@supabase/supabase-js'
 const { supabase, fetchUser } = useAuth()
 const notes = ref<any[]>([])
 const user = useState<User | null>('user')
-console.log(user.value, 'value')
+const loading = ref<boolean>(true)
 onMounted(async () => {
   if (!user.value) await fetchUser()
   if (!user.value) navigateTo('/login')
+  loading.value = true
   const { data, error } = await supabase
     .from('food_notes')
     .select('*')
@@ -63,6 +72,7 @@ onMounted(async () => {
   } else {
     notes.value = data || []
   }
+  loading.value = false
 })
 </script>
 

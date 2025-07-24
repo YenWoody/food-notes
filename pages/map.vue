@@ -1,5 +1,9 @@
 <template>
-  <div ref="mapViewEl" class="absolute top-[64px] bottom-[65px] left-0 right-0" />
+  <div
+    ref="mapViewEl"
+    v-loading="loading"
+    class="absolute top-[64px] bottom-[65px] left-0 right-0"
+  />
 </template>
 
 <script setup lang="ts">
@@ -7,7 +11,7 @@ import { onMounted, ref } from 'vue'
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
 const mapViewEl = ref<HTMLDivElement | null>(null)
-
+const loading = ref(true)
 onMounted(() => {
   if (!mapViewEl.value) return
   const map = new Map({
@@ -22,6 +26,7 @@ onMounted(() => {
       zoom: 12
     })
   }
+  loading.value = false
 })
 </script>
 

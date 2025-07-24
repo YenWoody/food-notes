@@ -172,10 +172,6 @@ const onSelectFile = (e: Event) => {
   selectedFile.value = file
   previewUrl.value = URL.createObjectURL(file)
 }
-const onAddressSelected = (payload: { name: string; lat: number; lng: number }) => {
-  form.value.locationName = payload.name
-  form.value.locationCoords = [payload.lng, payload.lat]
-}
 const handleSelectInput = (e: Event) => {
   const input = e.target as HTMLInputElement
   const value = input.value
